@@ -2,7 +2,7 @@
 #
 # Table name: actors
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  bio        :text
 #  dob        :date
 #  image      :string
@@ -12,24 +12,26 @@
 #
 class Actor < ApplicationRecord
   validates(:name, presence: true)
+  has_many(:characters)
+  has_many(:movies, through: :characters, source: :movie)
+  
+  # def characters
+  #   key = self.id
 
-  def characters
-    key = self.id
+  #   the_many = Character.where({ :actor_id => key })
 
-    the_many = Character.where({ :actor_id => key })
+  #   return the_many
+  # end
 
-    return the_many
-  end
+  # def filmography
+  #   the_many = Array.new
 
-  def filmography
-    the_many = Array.new
+  #   self.characters.each do |joining_record|
+  #     destination_record = joining_record.movie
 
-    self.characters.each do |joining_record|
-      destination_record = joining_record.movie
+  #     the_many.push(destination_record)
+  #   end
 
-      the_many.push(destination_record)
-    end
-
-    return the_many
-  end
+  #   return the_many
+  # end
 end
